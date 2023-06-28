@@ -1,0 +1,12 @@
+.section {
+  max-width: 600px;
+}
+
+.ingridients_tabs {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ingridients__item {}
