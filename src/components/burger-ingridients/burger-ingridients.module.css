@@ -18,13 +18,17 @@
   overflow: overlay;
 }
 
-.result__list::-webkit--scrollbar {
+.result__list::-webkit-scrollbar {
   width: 8px;
   overflow: visible;
 }
 
+.result__list::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
 .result__list::-webkit-scrollbar-thumb {
-  background: #8585ad;
+  background: #8585AD;
 }
 
 .ingridients_box {
