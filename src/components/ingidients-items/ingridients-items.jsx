@@ -7,8 +7,8 @@ const IngridientsItems = ({ ingridient }) => {
   return (
     <li className={styles.item}>
       <Counter count={1} size="default" extraClass="m-1" />
-      <img src={ingridient.image} alt={ingridient.name} />
-      <div className={styles.price}>
+      <img className="pr-4 pl-4" src={ingridient.image} alt={ingridient.name} />
+      <div className={`pt-1 pb-1 ${styles.price}`}>
         <p className="text text_type_digits-default">{ingridient.price}</p>
         <CurrencyIcon type="primary" />
       </div>
@@ -18,7 +18,7 @@ const IngridientsItems = ({ ingridient }) => {
 }
 
 IngridientsItems.propTypes = {
-  ingredient: ingridientType.isRequired,
+  ingridient: ingridientType.isRequired,
 };
 
 export default IngridientsItems;

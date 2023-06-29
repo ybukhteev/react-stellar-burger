@@ -64,7 +64,7 @@ const BurgerIngridients = ({ data }) => {
           })}
         </ul>
         <h2 className="text text_type_main-medium">Начинки</h2>
-        <ul className={styles.ingridients_box}>
+        <ul className={`pt-6 ${styles.ingridients_box}`}>
           {toppingList.map((item) => {
             return <IngridientsItems key={item._id} ingridient={item} />
           })}

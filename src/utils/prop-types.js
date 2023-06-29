@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export const ingridientType = PropTypes.shape({
   //укажите здесь prop-types для ингридиента
-  id_: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   proteins: PropTypes.number.isRequired,
