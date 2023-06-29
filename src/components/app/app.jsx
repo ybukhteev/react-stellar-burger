@@ -7,7 +7,9 @@ const App = () => {
   return (
     <>
       <AppHeader />
-      <BurgerIngridients />
+      <main className={styles.main}>
+        <BurgerIngridients data={data} />
+      </main>
     </>
   )
 }

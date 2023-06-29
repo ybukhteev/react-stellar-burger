@@ -1,0 +1,12 @@
+.item {
+  min-height: 208px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
