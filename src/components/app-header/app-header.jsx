@@ -23,9 +23,11 @@ const AppHeader = () => {
           </li>
         </ul>
       </nav>
+
       <Logo />
-      <nav className={styles.header__nav_user}>
-        <ul>
+
+      <nav className={`${styles.header__nav} ${styles.header__nav_user}`}>
+        <ul className={styles.list}>
           <li className={`pt-4 pr-5 pb-4 pl-5 ${styles.list__items}`} >
             <ProfileIcon type="secondary" />
             <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>

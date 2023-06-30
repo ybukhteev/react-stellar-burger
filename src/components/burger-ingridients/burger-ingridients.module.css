@@ -5,13 +5,13 @@
 .ingridients_tabs {
   display: flex;
   flex-direction: row;
+  margin: 0;
+  padding: 0;
   list-style-type: none;
-  padding-left: 0;
 }
 
 .result__list {
   max-height: 716px;
-  height: 1000%;
   margin-top: 40px;
   position: relative;
   scrollbar-gutter: stable;
@@ -33,10 +33,11 @@
 }
 
 .ingridients_box {
-  padding-left: 0;
+  list-style-type: none;
+  padding-top: 24px;
   margin: 0;
   padding-bottom: 40px;
   display: grid;
   grid-template-columns: repeat(2, min-content);
-  gap: 24px 32px;
+  gap: 32px 24px;
 }

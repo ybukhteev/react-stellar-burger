@@ -52,19 +52,19 @@ const BurgerIngridients = ({ data }) => {
 
       <div className={styles.result__list}>
         <h2 className="text text_type_main-medium">Булки</h2>
-        <ul className={styles.ingridients_box}>
+        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {bunsList.map((item) => {
             return <IngridientsItems key={item._id} ingridient={item} />
           })}
         </ul>
         <h2 className="text text_type_main-medium">Соусы</h2>
-        <ul className={styles.ingridients_box}>
+        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {saucesList.map((item) => {
             return <IngridientsItems key={item._id} ingridient={item} />
           })}
         </ul>
         <h2 className="text text_type_main-medium">Начинки</h2>
-        <ul className={`pt-6 ${styles.ingridients_box}`}>
+        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {toppingList.map((item) => {
             return <IngridientsItems key={item._id} ingridient={item} />
           })}

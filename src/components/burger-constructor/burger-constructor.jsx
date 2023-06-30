@@ -9,7 +9,7 @@ import ingridientType from "../../utils/prop-types";
 
 const BurgerConstructor = ({ data }) => {
   return (
-    <section className={`mt-25 ${styles.section}`}>
+    <section className={`pl-4 pr-4 ${styles.section}`}>
       <div className={styles.ingridients}>
         <ConstructorElement
           extraClass={styles.buns}
