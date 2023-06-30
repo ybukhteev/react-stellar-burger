@@ -9,11 +9,10 @@ import ingridientType from "../../utils/prop-types";
 
 const BurgerConstructor = ({ data }) => {
   return (
-    <section className={styles.section}>
+    <section className={`mt-25 ${styles.section}`}>
       <div className={styles.ingridients}>
         <ConstructorElement
           extraClass={styles.buns}
-          key={"top"}
           type="top"
           isLocked={true}
           text="Краторная булка N-200i (верх)"
@@ -21,7 +20,7 @@ const BurgerConstructor = ({ data }) => {
           thumbnail={data[0].image}
         />
 
-        <ul className={styles.result__list}>
+        <ul className={styles.list}>
           {data.filter((item) => item.type !== "bun").map((item) => {
             return (
               <li key={item._id} className={styles.list__items}>
@@ -37,10 +36,8 @@ const BurgerConstructor = ({ data }) => {
           })}
         </ul>
 
-
         <ConstructorElement
           extraClass={styles.buns}
-          key={"bottom"}
           type="bottom"
           isLocked={true}
           text="Краторная булка N-200i (низ)"

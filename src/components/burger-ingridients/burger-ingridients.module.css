@@ -10,7 +10,8 @@
 }
 
 .result__list {
-  height: 716px;
+  max-height: 716px;
+  height: 1000%;
   margin-top: 40px;
   position: relative;
   scrollbar-gutter: stable;
