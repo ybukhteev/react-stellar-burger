@@ -3,7 +3,7 @@ import done from '../../image/done.png'
 
 const OrderDetails = () => {
   return (
-    <div className="{styles.box}">
+    <div className={styles.wrapper}>
       <h1 className="">03456</h1>
       <h2 className="">идентификатор заказа</h2>
       <img src={done} alt="" className="" />

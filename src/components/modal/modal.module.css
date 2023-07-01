@@ -6,7 +6,7 @@
   position: relative;
 }
 
-.close-button {
+.close_button {
   display: flex;
   position: absolute;
   right: 40px;

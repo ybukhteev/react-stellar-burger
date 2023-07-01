@@ -5,6 +5,9 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Api from "../api/api";
 import { useState } from "react";
 import { useEffect } from "react";
+import ModelOverlay from "../modal-overlay/modal-overlay";
+import { createPortal } from "react-dom";
+import Modal from "../modal/modal";
 
 const api = new Api();
 
@@ -15,6 +18,12 @@ const App = () => {
     hasErrors: false,
     data: {},
   })
+
+  const [popupIsOpened, setPopup] = useState(false);
+
+  const togglePopup = () => {
+    setPopup(!popupIsOpened);
+  }
 
   useEffect(() => {
     (() => {
@@ -37,10 +46,12 @@ const App = () => {
         {!state.isLoading && !state.hasErrors && state.data.length && (
           <>
             <BurgerIngridients data={state.data} />
-            <BurgerConstructor data={state.data} />
+            <BurgerConstructor data={state.data} onOpenPopup={togglePopup} />
           </>
         )}
       </main>
+      {popupIsOpened &&
+        createPortal(<ModelOverlay onClose={togglePopup} />, document.body)}
     </>
   )
 }

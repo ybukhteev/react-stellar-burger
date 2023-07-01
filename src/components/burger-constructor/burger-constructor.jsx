@@ -7,7 +7,13 @@ import PropTypes from "prop-types";
 import styles from '../burger-constructor/burger-constructor.module.css'
 import ingridientType from "../../utils/prop-types";
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = ({ data, onOpenPopup }) => {
+
+  const onButtonClick = () => {
+    console.log("confirm");
+    onOpenPopup();
+  };
+
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
       <div className={styles.ingridients}>
@@ -51,7 +57,7 @@ const BurgerConstructor = ({ data }) => {
           <p className="text text_type_digits-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large"> Оформить заказ</Button>
+        <Button onClick={onButtonClick} htmlType="button" type="primary" size="large"> Оформить заказ</Button>
       </div>
 
     </section>
