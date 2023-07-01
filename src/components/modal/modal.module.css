@@ -1,0 +1,14 @@
+.modal {
+  width: 720px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 40px;
+  position: relative;
+}
+
+.close-button {
+  display: flex;
+  position: absolute;
+  right: 40px;
+  cursor: pointer;
+}
