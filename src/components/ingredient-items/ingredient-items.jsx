@@ -2,8 +2,9 @@ import styles from '../ingredient-items/ingredient-items.module.css';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientType from '../../utils/prop-types';
+import { memo } from 'react';
 
-const IngredientsItems = ({ ingredient, onIngredientClick }) => {
+const IngredientsItems = memo(({ ingredient, onIngredientClick }) => {
   return (
     <li className={styles.item} onClick={onIngredientClick}>
       <Counter count={1} size="default" extraClass="m-1" />
@@ -15,10 +16,10 @@ const IngredientsItems = ({ ingredient, onIngredientClick }) => {
       <p className="text text_type_main-default">{ingredient.name}</p>
     </li>
   )
-}
+})
 
 IngredientsItems.propTypes = {
-  ingrexdient: ingredientType.isRequired,
+  ingredient: ingredientType.isRequired,
 };
 
 export default IngredientsItems;

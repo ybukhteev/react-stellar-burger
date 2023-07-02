@@ -3,12 +3,13 @@ import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { memo } from 'react';
 
 
 // Импорт стилей из CSS модуля
 import styles from './app-header.module.css';
 
-const AppHeader = () => {
+const AppHeader = memo(() => {
   return (
     <header className={`p-4 ${styles.header}`}>
       <nav className={`${styles.header__nav} ${styles.header__nav_links}`}>
@@ -42,6 +43,6 @@ const AppHeader = () => {
       </nav>
     </header>
   )
-}
+})
 
 export default AppHeader;

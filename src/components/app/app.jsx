@@ -3,13 +3,11 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Api from "../api/api";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
 import IngredientDetails from "../ingredients-details/ingredients-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const api = new Api();
 
@@ -17,17 +15,15 @@ const modalRoot = document.getElementById('modals');
 
 const App = () => {
 
-  const [popupIsOpened, setPopup] = useState(false);
-
   const [state, setState] = useState({
     isLoading: false,
     hasErrors: false,
     data: {},
   })
 
-  const togglePopup = () => {
-    setPopup(!popupIsOpened);
-  }
+  const [popupIsOpened, setPopup] = useState(false);
+  const [currentIngredient, setIngredient] = useState(null);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     (() => {
@@ -41,12 +37,20 @@ const App = () => {
     })();
   }, []);
 
-  const [currentIngredient, setIngredient] = useState(null);
-
-  const changeIngredient = (item) => {
-    setIngredient(item);
-    togglePopup();
+  const togglePopup = () => {
+    setPopup(!popupIsOpened);
   }
+
+  const openIngredientStatus = useCallback((item) => {
+    setIngredient(item);
+    setIsActive(true);
+    togglePopup();
+  }, [])
+
+  const openConfirm = useCallback(() => {
+    setIsActive(false);
+    togglePopup();
+  }, [])
 
   return (
     <>
@@ -56,20 +60,18 @@ const App = () => {
         {state.hasErrors && "Failed"}
         {!state.isLoading && !state.hasErrors && state.data.length && (
           <>
-            <BurgerIngredients data={state.data} onOpenIngredientStatus={changeIngredient} />
-            <BurgerConstructor data={state.data} onOpenIngredientStatus={changeIngredient} onOpenConfirmPopup={togglePopup} />
+            <BurgerIngredients data={state.data} onOpenIngredientStatus={openIngredientStatus} />
+            <BurgerConstructor data={state.data} onOpenIngredientStatus={openIngredientStatus} onOpenConfirm={openConfirm} />
 
           </>
         )}
       </main>
 
-      {popupIsOpened &&
-        createPortal(
-          <Modal onClose={togglePopup}>
-            <IngredientDetails ingredient={currentIngredient} />
-          </Modal>,
-          modalRoot
-        )}
+      {popupIsOpened && (
+        <Modal onClose={togglePopup} container={modalRoot}>
+          {isActive ? (<IngredientDetails ingredient={currentIngredient} />) : (<OrderDetails orderId='034536' />)}
+        </Modal>
+      )}
     </>
   )
 }

@@ -1,16 +1,17 @@
 import styles from '../order-details/order-details.module.css';
-import done from '../../image/done.png'
+import done from '../../image/done.png';
+import { memo } from 'react';
 
-const OrderDetails = () => {
+const OrderDetails = memo(({ orderId }) => {
   return (
     <div className={styles.wrapper}>
-      <h1 className="">03456</h1>
-      <h2 className="">идентификатор заказа</h2>
-      <img src={done} alt="" className="" />
-      <p className="">Ваш заказ начали готовить</p>
-      <p className="">Дождитесь готовности на орбитальной станции</p>
-    </div>
+      <h1 className={`text text_type_digits-large ${styles.order_id}`}>{orderId}</h1>
+      <h2 className="text text_type_main-medium">идентификатор заказа</h2>
+      <img src={done} alt="Заказ подтвержден" className="text text_type_main-medium" />
+      <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
+      <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
+    </div >
   )
-}
+})
 
 export default OrderDetails;

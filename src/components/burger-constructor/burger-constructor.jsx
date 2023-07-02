@@ -4,10 +4,11 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
+import { memo } from "react";
 import styles from '../burger-constructor/burger-constructor.module.css'
 import ingredientType from "../../utils/prop-types";
 
-const BurgerConstructor = ({ data, onOpenIngredientStatus, onOpenConfirmPopup }) => {
+const BurgerConstructor = memo(({ data, onOpenIngredientStatus, onOpenConfirm }) => {
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
@@ -53,12 +54,13 @@ const BurgerConstructor = ({ data, onOpenIngredientStatus, onOpenConfirmPopup })
           <p className="text text_type_digits-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button onClick={onOpenConfirmPopup} htmlType="button" type="primary" size="large"> Оформить заказ</Button>
+        <Button onClick={onOpenConfirm} htmlType="button" type="primary" size="large"> Оформить заказ</Button>
       </div>
 
     </section>
   )
 }
+)
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(ingredientType).isRequired,
