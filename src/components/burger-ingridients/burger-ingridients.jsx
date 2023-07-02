@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsItems from '../ingidients-items/ingridients-items';
+import IngridientsItems from '../ingridients-items/ingridients-items';
 import PropTypes from 'prop-types';
 import ingridientType from '../../utils/prop-types';
 
 
 import styles from './burger-ingridients.module.css';
 
-const BurgerIngridients = ({ data }) => {
+const BurgerIngridients = ({ data, onOpenPopup }) => {
 
   const [current, setCurrent] = React.useState("Булки");
 
@@ -54,19 +54,37 @@ const BurgerIngridients = ({ data }) => {
         <h2 className="text text_type_main-medium">Булки</h2>
         <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {bunsList.map((item) => {
-            return <IngridientsItems key={item._id} ingridient={item} />
+            return (
+              <IngridientsItems
+                key={item._id}
+                ingridient={item}
+                onIngredientClick={onOpenPopup}
+              />
+            );
           })}
         </ul>
         <h2 className="text text_type_main-medium">Соусы</h2>
         <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {saucesList.map((item) => {
-            return <IngridientsItems key={item._id} ingridient={item} />
+            return (
+              <IngridientsItems
+                key={item._id}
+                ingridient={item}
+                onIngredientClick={onOpenPopup}
+              />
+            );
           })}
         </ul>
         <h2 className="text text_type_main-medium">Начинки</h2>
         <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
           {toppingList.map((item) => {
-            return <IngridientsItems key={item._id} ingridient={item} />
+            return (
+              <IngridientsItems
+                key={item._id}
+                ingridient={item}
+                onIngredientClick={onOpenPopup}
+              />
+            );
           })}
         </ul>
       </div>

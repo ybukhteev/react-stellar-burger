@@ -14,12 +14,16 @@ const AppHeader = () => {
       <nav className={`${styles.header__nav} ${styles.header__nav_links}`}>
         <ul className={styles.list}>
           <li className={`pt-4 pr-5 pb-4 pl-5 ${styles.list__items}`}>
-            <BurgerIcon type="primary" />
-            <p className="text text_type_main-default">Конструктор</p>
+            <a href="#" className={styles.link}>
+              <BurgerIcon type="primary" />
+              <p className="text text_type_main-default">Конструктор</p>
+            </a>
           </li>
           <li className={`pt-4 pr-5 pb-4 pl-5 ${styles.list__items}`}>
-            <ListIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
+            <a href="#" className={styles.link}>
+              <ListIcon type="secondary" />
+              <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
+            </a>
           </li>
         </ul>
       </nav>
@@ -29,8 +33,10 @@ const AppHeader = () => {
       <nav className={`${styles.header__nav} ${styles.header__nav_user}`}>
         <ul className={styles.list}>
           <li className={`pt-4 pr-5 pb-4 pl-5 ${styles.list__items}`} >
-            <ProfileIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
+            <a href="#" className={styles.link}>
+              <ProfileIcon type="secondary" />
+              <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
+            </a>
           </li>
         </ul>
       </nav>

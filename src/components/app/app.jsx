@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import ModelOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
 
+import OrderDetails from "../order-details/order-details";
+
 const api = new Api();
 
 const modalRoot = document.getElementById('modals');
@@ -46,13 +48,18 @@ const App = () => {
         {state.hasErrors && "Failed"}
         {!state.isLoading && !state.hasErrors && state.data.length && (
           <>
-            <BurgerIngridients data={state.data} />
+            <BurgerIngridients data={state.data} onOpenPopup={togglePopup} />
             <BurgerConstructor data={state.data} onOpenPopup={togglePopup} />
           </>
         )}
       </main>
       {popupIsOpened &&
-        createPortal(<ModelOverlay onClose={togglePopup} />, modalRoot)}
+        createPortal(
+          <ModelOverlay onClose={togglePopup}>
+            <OrderDetails />
+          </ModelOverlay>,
+          modalRoot
+        )}
     </>
   )
 }
