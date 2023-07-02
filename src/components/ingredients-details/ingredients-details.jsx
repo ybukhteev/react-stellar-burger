@@ -1,35 +1,37 @@
-import ingridientType from "../../utils/prop-types"
+import styles from '../ingredients-details/ingredients-details.module.css'
+import ingredientType from "../../utils/prop-types";
 
-const IngredientDetais = ({ ingredient }) => {
+
+const IngredientDetails = ({ ingredient }) => {
   return (
     <div className={styles.box}>
-      <h1 className="">Детали ингредиента</h1>
-      <img src={ingredient.image} alt={ingredient.name} className="" />
-      <h2 className={ }>{ingredient.name}</h2>
-      <div className="composition-box">
-        <div className="composition_item">
-          <p className="">Калории,ккал</p>
-          <p className="">{ingredient.calories}</p>
+      <h1 className={styles.caption}>Детали ингредиента </h1>
+      <img src={ingredient.image} alt={ingredient.name} className={styles.img} />
+      <h2 className={`text text_type_main-medium pt-4 ${styles.name}`}>{ingredient.name}</h2>
+      <div className={styles.composition_box}>
+        <div className={styles.composition_item}>
+          <p className="text text_type_main-default text_color_inactive">Калории, ккал</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredient.calories}</p>
         </div>
-        <div className="composition_item">
-          <p className="">Белки, г</p>
-          <p className="">{ingredient.proteins}</p>
+        <div className={styles.composition_item}>
+          <p className="text text_type_main-default text_color_inactive">Белки, г</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredient.proteins}</p>
         </div>
-        <div className="composition_item">
-          <p className="">Жиры, г</p>
-          <p className="">{ingredient.fat}</p>
+        <div className={styles.composition_item}>
+          <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredient.fat}</p>
         </div>
-        <div className="composition_item">
-          <p className="">Углеводы, г</p>
-          <p className="">{ingredient.carbohydrates}</p>
+        <div className={styles.composition_item}>
+          <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredient.carbohydrates}</p>
         </div>
       </div>
     </div>
   )
 }
 
-IngredientDetais.propTypes = {
-  ingredient: ingridientType.isRequired,
+IngredientDetails.propTypes = {
+  ingredient: ingredientType.isRequired,
 }
 
-export default IngredientDetais;
+export default IngredientDetails;

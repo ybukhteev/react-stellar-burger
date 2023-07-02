@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsItems from '../ingridients-items/ingridients-items';
+import IngredientsItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
-import ingridientType from '../../utils/prop-types';
+import ingredientType from '../../utils/prop-types';
 
+import styles from './burger-ingredients.module.css';
 
-import styles from './burger-ingridients.module.css';
-
-const BurgerIngridients = ({ data, onOpenPopup }) => {
+const BurgerIngredients = ({ data, onOpenPopup }) => {
 
   const [current, setCurrent] = React.useState("Булки");
 
@@ -20,7 +19,7 @@ const BurgerIngridients = ({ data, onOpenPopup }) => {
     <section className={`pt-10 ${styles.section}`}>
       <h1 className="pb-5 text text_type_main-large">Соберите бургер</h1>
 
-      <ul className={styles.ingridients_tabs}>
+      <ul className={styles.ingredients_tabs}>
         <li>
           <Tab
             value="Булки"
@@ -52,36 +51,36 @@ const BurgerIngridients = ({ data, onOpenPopup }) => {
 
       <div className={styles.result__list}>
         <h2 className="text text_type_main-medium">Булки</h2>
-        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
+        <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {bunsList.map((item) => {
             return (
-              <IngridientsItems
+              <IngredientsItems
                 key={item._id}
-                ingridient={item}
+                ingredient={item}
                 onIngredientClick={onOpenPopup}
               />
             );
           })}
         </ul>
         <h2 className="text text_type_main-medium">Соусы</h2>
-        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
+        <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {saucesList.map((item) => {
             return (
-              <IngridientsItems
+              <IngredientsItems
                 key={item._id}
-                ingridient={item}
+                ingredient={item}
                 onIngredientClick={onOpenPopup}
               />
             );
           })}
         </ul>
         <h2 className="text text_type_main-medium">Начинки</h2>
-        <ul className={`pl-4 pr-4 ${styles.ingridients_box}`}>
+        <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {toppingList.map((item) => {
             return (
-              <IngridientsItems
+              <IngredientsItems
                 key={item._id}
-                ingridient={item}
+                ingredient={item}
                 onIngredientClick={onOpenPopup}
               />
             );
@@ -92,9 +91,9 @@ const BurgerIngridients = ({ data, onOpenPopup }) => {
   )
 }
 
-BurgerIngridients.propTypes = {
-  data: PropTypes.arrayOf(ingridientType).isRequired,
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(ingredientType).isRequired,
 };
 
 
-export default BurgerIngridients;
+export default BurgerIngredients;

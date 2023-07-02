@@ -16,7 +16,7 @@ class Api extends React.Component {
     return Promise.reject(`Ошибка: ${res.status}`);
   };
 
-  getIngridients = () => {
+  getIngredients = () => {
     return this.getResources(`${this.baseUrl}`)
   };
 }

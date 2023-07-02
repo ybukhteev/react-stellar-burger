@@ -9,6 +9,7 @@
 .close_button {
   display: flex;
   position: absolute;
+  top: 60px;
   right: 40px;
   cursor: pointer;
 }

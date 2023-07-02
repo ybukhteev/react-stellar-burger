@@ -1,0 +1,35 @@
+.box {
+  padding-top: 40px;
+  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.caption {
+  padding-left: 40px;
+  align-self: flex-start;
+}
+
+.img {
+  display: block;
+  width: 480px;
+}
+
+.name {
+  padding-bottom: 32px;
+}
+
+.composition_box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.composition_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}

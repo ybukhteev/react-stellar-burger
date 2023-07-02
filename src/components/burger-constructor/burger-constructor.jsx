@@ -5,18 +5,17 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import PropTypes from "prop-types";
 
 import styles from '../burger-constructor/burger-constructor.module.css'
-import ingridientType from "../../utils/prop-types";
+import ingredientType from "../../utils/prop-types";
 
 const BurgerConstructor = ({ data, onOpenPopup }) => {
 
   const onButtonClick = () => {
-    console.log("confirm");
     onOpenPopup();
   };
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
-      <div className={styles.ingridients}>
+      <div className={styles.ingredients}>
         <ConstructorElement
           extraClass={styles.buns}
           type="top"
@@ -65,7 +64,7 @@ const BurgerConstructor = ({ data, onOpenPopup }) => {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingridientType).isRequired,
+  data: PropTypes.arrayOf(ingredientType).isRequired,
 };
 
 export default BurgerConstructor;
