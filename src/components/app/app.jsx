@@ -8,34 +8,22 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import IngredientDetails from "../ingredients-details/ingredients-details";
 import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const api = new Api();
 
 const modalRoot = document.getElementById('modals');
-const ingredient = {
-  "_id": "60666c42cc7b410027a1a9ba",
-  "name": "Соус с шипами Антарианского плоскоходца",
-  "type": "sauce",
-  "proteins": 101,
-  "fat": 99,
-  "carbohydrates": 100,
-  "calories": 100,
-  "price": 88,
-  "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
-  "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
-  "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
-  "__v": 0
-};
 
 const App = () => {
+
+  const [popupIsOpened, setPopup] = useState(false);
 
   const [state, setState] = useState({
     isLoading: false,
     hasErrors: false,
     data: {},
   })
-
-  const [popupIsOpened, setPopup] = useState(false);
 
   const togglePopup = () => {
     setPopup(!popupIsOpened);
@@ -53,6 +41,13 @@ const App = () => {
     })();
   }, []);
 
+  const [currentIngredient, setIngredient] = useState(null);
+
+  const changeIngredient = (item) => {
+    setIngredient(item);
+    togglePopup();
+  }
+
   return (
     <>
       <AppHeader />
@@ -61,8 +56,9 @@ const App = () => {
         {state.hasErrors && "Failed"}
         {!state.isLoading && !state.hasErrors && state.data.length && (
           <>
-            <BurgerIngredients data={state.data} onOpenPopup={togglePopup} />
-            <BurgerConstructor data={state.data} onOpenPopup={togglePopup} />
+            <BurgerIngredients data={state.data} onOpenIngredientStatus={changeIngredient} />
+            <BurgerConstructor data={state.data} onOpenIngredientStatus={changeIngredient} onOpenConfirmPopup={togglePopup} />
+
           </>
         )}
       </main>
@@ -70,7 +66,7 @@ const App = () => {
       {popupIsOpened &&
         createPortal(
           <Modal onClose={togglePopup}>
-            <IngredientDetails ingredient={ingredient} />
+            <IngredientDetails ingredient={currentIngredient} />
           </Modal>,
           modalRoot
         )}

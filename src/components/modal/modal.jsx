@@ -1,7 +1,7 @@
 import styles from '../modal/modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import { useEffect } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { useRef } from 'react';
 
 const Modal = ({ onClose, children }) => {
@@ -28,7 +28,6 @@ const Modal = ({ onClose, children }) => {
       onClose();
     }
   }
-
 
   return (
     <ModalOverlay>

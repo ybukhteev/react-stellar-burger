@@ -7,7 +7,7 @@ import ingredientType from '../../utils/prop-types';
 
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = ({ data, onOpenPopup }) => {
+const BurgerIngredients = ({ data, onOpenIngredientStatus }) => {
 
   const [current, setCurrent] = React.useState("Булки");
 
@@ -57,7 +57,7 @@ const BurgerIngredients = ({ data, onOpenPopup }) => {
               <IngredientsItems
                 key={item._id}
                 ingredient={item}
-                onIngredientClick={onOpenPopup}
+                onIngredientClick={() => onOpenIngredientStatus(item)}
               />
             );
           })}
@@ -69,7 +69,7 @@ const BurgerIngredients = ({ data, onOpenPopup }) => {
               <IngredientsItems
                 key={item._id}
                 ingredient={item}
-                onIngredientClick={onOpenPopup}
+                onIngredientClick={() => onOpenIngredientStatus(item)}
               />
             );
           })}
@@ -81,7 +81,7 @@ const BurgerIngredients = ({ data, onOpenPopup }) => {
               <IngredientsItems
                 key={item._id}
                 ingredient={item}
-                onIngredientClick={onOpenPopup}
+                onIngredientClick={() => onOpenIngredientStatus(item)}
               />
             );
           })}
