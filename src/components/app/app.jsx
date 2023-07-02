@@ -7,9 +7,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import ModelOverlay from "../modal-overlay/modal-overlay";
 import { createPortal } from "react-dom";
-import Modal from "../modal/modal";
 
 const api = new Api();
+
+const modalRoot = document.getElementById('modals');
 
 const App = () => {
 
@@ -51,7 +52,7 @@ const App = () => {
         )}
       </main>
       {popupIsOpened &&
-        createPortal(<ModelOverlay onClose={togglePopup} />, document.body)}
+        createPortal(<ModelOverlay onClose={togglePopup} />, modalRoot)}
     </>
   )
 }
