@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
 import ingredientType from '../../utils/prop-types';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import styles from './burger-ingredients.module.css';
 
@@ -12,9 +12,23 @@ const BurgerIngredients = memo(({ data, onOpenIngredientStatus }) => {
 
   const [current, setCurrent] = React.useState("Булки");
 
-  const bunsList = data.filter((item) => item.type === "bun");
-  const saucesList = data.filter((item) => item.type === "sauce");
-  const toppingList = data.filter((item) => item.type === "main");
+  const bunsList = useMemo(() =>
+    data.filter((item) => {
+      return item.type === "bun";
+    }), [data]
+  );
+
+  const saucesList = useMemo(() =>
+    data.filter((item) => {
+      return item.type === "sauce";
+    }), [data]
+  );
+
+  const toppingList = useMemo(() =>
+    data.filter((item) => {
+      return item.type === "main";
+    }), [data]
+  );
 
   return (
     <section className={`pt-10 ${styles.section}`}>

@@ -7,7 +7,7 @@ const OrderDetails = memo(({ orderId }) => {
     <div className={styles.wrapper}>
       <h1 className={`text text_type_digits-large ${styles.order_id}`}>{orderId}</h1>
       <h2 className="text text_type_main-medium">идентификатор заказа</h2>
-      <img src={done} alt="Заказ подтвержден" className="text text_type_main-medium" />
+      <img src={done} alt="Заказ подтвержден" className={`text text_type_main-medium ${styles.img}`} />
       <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
       <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>
     </div >
