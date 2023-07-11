@@ -1,0 +1,15 @@
+.item {
+  min-height: 208px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  text-align: center;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
