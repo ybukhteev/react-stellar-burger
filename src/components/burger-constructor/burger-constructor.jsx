@@ -4,11 +4,21 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-import { memo } from "react";
+import { memo, useMemo, useContext} from "react";
 import styles from '../burger-constructor/burger-constructor.module.css'
 import ingredientType from "../../utils/prop-types";
+import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
 
-const BurgerConstructor = memo(({ data, onOpenIngredientStatus, onOpenConfirm }) => {
+
+const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
+  const data = useContext(BurgerIngredientsContext);
+  const burgerIngredientsList = useMemo(() => 
+    data.filter((item) => {
+      return item.type !== "bun";
+    }), [data] 
+  );
+
+  const bun = useMemo(() => data.find((item) => item.type === "bun"), [data]);
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
@@ -17,22 +27,22 @@ const BurgerConstructor = memo(({ data, onOpenIngredientStatus, onOpenConfirm })
           extraClass={styles.buns}
           type="top"
           isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={data[0].image}
+          text={`${bun.name} (верх)`}
+          price={bun.price}
+          thumbnail={bun.image}
         />
 
         <ul className={styles.list}>
-          {data.filter((item) => item.type !== "bun").map((item) => {
+          {burgerIngredientsList.map((item) => {
             return (
               <li key={item._id} className={styles.list__items} onClick={() => onOpenIngredientStatus(item)}>
 
                 <DragIcon type="primary" />
                 <ConstructorElement
                   key={item._id}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
+                  text={`${bun.name} (низ)`}
+                  price={bun.price}
+                  thumbnail={bun.image}
                 />
               </li>
             );

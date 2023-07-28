@@ -1,14 +1,15 @@
 import React from 'react';
-
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
 import ingredientType from '../../utils/prop-types';
-import { memo, useMemo } from 'react';
-
+import { memo, useMemo, useContext } from 'react';
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = memo(({ data, onOpenIngredientStatus }) => {
+import { BurgerIngredientsContext } from '../../services/context/ingredient-context';
+
+const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
+  const data = useContext(BurgerIngredientsContext);
 
   const [current, setCurrent] = React.useState("Булки");
 

@@ -9,6 +9,8 @@ import IngredientDetails from "../ingredients-details/ingredients-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
+import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
+
 const api = new Api();
 
 const modalRoot = document.getElementById('modals');
@@ -59,11 +61,10 @@ const App = () => {
         {state.isLoading && "Loading..."}
         {state.hasErrors && "Failed"}
         {!state.isLoading && !state.hasErrors && state.data.length && (
-          <>
-            <BurgerIngredients data={state.data} onOpenIngredientStatus={openIngredientStatus} />
-            <BurgerConstructor data={state.data} onOpenIngredientStatus={openIngredientStatus} onOpenConfirm={openConfirm} />
-
-          </>
+          <BurgerIngredientsContext.Provider value={state.data}>
+            <BurgerIngredients onOpenIngredientStatus={openIngredientStatus} />
+            <BurgerConstructor onOpenIngredientStatus={openIngredientStatus} onOpenConfirm={openConfirm} />
+          </BurgerIngredientsContext.Provider>
         )}
       </main>
 
