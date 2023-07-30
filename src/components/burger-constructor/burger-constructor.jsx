@@ -4,18 +4,28 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-import { memo, useContext } from "react";
+import { memo, useContext, useEffect } from "react";
 import styles from '../burger-constructor/burger-constructor.module.css'
 import ingredientType from "../../utils/prop-types";
 
 
 import { TotalPriceContext } from "../../services/context/total-price-context";
 import { BurgerConstructorContext } from "../../services/context/ingredient-context";
+import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
+import IngredientDetails from "../ingredients-details/ingredients-details";
 
 
 const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
-  const { bun, constructorIngredients } = useContext(BurgerConstructorContext);
+  const data = useContext(BurgerIngredientsContext);
+  const { bun, constructorIngredients, setConstructorIngredients } = useContext(BurgerConstructorContext);
   const { totalPriceState, totalPriceDispatcher } = useContext(TotalPriceContext);
+
+  useEffect(() => {
+    const initialArray = data.slice(0, 5).filter((item) => {
+      return item.type !== 'bun';
+    });
+    setConstructorIngredients(initialArray);
+  }, [])
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>

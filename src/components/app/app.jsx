@@ -13,8 +13,6 @@ import { BurgerIngredientsContext } from "../../services/context/ingredient-cont
 import { BurgerConstructorContext } from "../../services/context/ingredient-context";
 
 import { TotalPriceContext } from "../../services/context/total-price-context";
-import { defaultIngredient } from "../../utils/defaultInfo";
-import { defaultBun } from "../../utils/defaultInfo";
 import { useReducer } from "react";
 
 const api = new Api();
@@ -42,8 +40,8 @@ const App = () => {
     data: {},
   })
 
-  const [bun, setBun] = useState(defaultBun);
-  const [constructorIngredients, setConstructorIngredients] = useState([defaultIngredient]);
+  const [bun, setBun] = useState({});
+  const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialValue, undefined);
   const [orderNumber, setOrderNum] = useState(null);
 
@@ -58,7 +56,10 @@ const App = () => {
       setState({ ...state, hasErrors: false, isLoading: true });
       api
         .getIngredients()
-        .then(({ data }) => setState({ ...state, data, isLoading: false }))
+        .then(({ data }) => {
+          setState({ ...state, data, isLoading: false });
+          setBun(data[0]);
+        })
         .catch((e) => {
           setState({ ...state, hasErrors: true, isLoading: false });
         });
