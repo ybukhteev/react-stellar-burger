@@ -23,10 +23,10 @@ const totalPriceInitialValue = { totalPrice: 0 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "add":
+    case "total":
       return {
-        totalPrice: state.totalPrice + action.payload
-      };
+        totalPrice: action.payload
+      }
     default:
       throw new Error(`Wrong type of action: ${action.type} `)
   }
@@ -65,6 +65,17 @@ const App = () => {
         });
     })();
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(bun).length > 0 && constructorIngredients.length > 0) {
+      let totalIngredients = 0;
+      constructorIngredients.forEach((item) => (totalIngredients += item.price));
+      totalPriceDispatcher({
+        type: 'total',
+        payload: bun.price + totalIngredients
+      })
+    }
+  }, [bun, constructorIngredients]);
 
   const togglePopup = () => {
     setPopup(!popupIsOpened);

@@ -17,13 +17,15 @@ import IngredientDetails from "../ingredients-details/ingredients-details";
 
 const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
   const data = useContext(BurgerIngredientsContext);
-  const { bun, constructorIngredients, setConstructorIngredients } = useContext(BurgerConstructorContext);
-  const { totalPriceState, totalPriceDispatcher } = useContext(TotalPriceContext);
+  const { bun, setBun, constructorIngredients, setConstructorIngredients } = useContext(BurgerConstructorContext);
+  const { totalPriceState } = useContext(TotalPriceContext);
 
   useEffect(() => {
     const initialArray = data.slice(0, 5).filter((item) => {
       return item.type !== 'bun';
     });
+    const initialBun = data.find((item) => item.type === 'bun');
+    setBun(initialBun);
     setConstructorIngredients(initialArray);
   }, [])
 

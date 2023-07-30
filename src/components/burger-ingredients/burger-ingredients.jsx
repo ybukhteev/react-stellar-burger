@@ -103,10 +103,6 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                       ...constructorIngredients,
                       item,
                     ]);
-                    totalPriceDispatcher({
-                      type: "add",
-                      payload: item.price,
-                    });
                   }
                 }}
               />
@@ -130,10 +126,6 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                       ...constructorIngredients,
                       item,
                     ]);
-                    totalPriceDispatcher({
-                      type: "add",
-                      payload: item.price,
-                    });
                   }
                 }}
               />
