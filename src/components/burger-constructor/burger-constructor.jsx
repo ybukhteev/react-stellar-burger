@@ -4,21 +4,18 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-import { memo, useMemo, useContext} from "react";
+import { memo, useContext } from "react";
 import styles from '../burger-constructor/burger-constructor.module.css'
 import ingredientType from "../../utils/prop-types";
-import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
+
+
+import { TotalPriceContext } from "../../services/context/total-price-context";
+import { BurgerConstructorContext } from "../../services/context/ingredient-context";
 
 
 const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
-  const data = useContext(BurgerIngredientsContext);
-  const burgerIngredientsList = useMemo(() => 
-    data.filter((item) => {
-      return item.type !== "bun";
-    }), [data] 
-  );
-
-  const bun = useMemo(() => data.find((item) => item.type === "bun"), [data]);
+  const { bun, constructorIngredients } = useContext(BurgerConstructorContext);
+  const { totalPriceState, totalPriceDispatcher } = useContext(TotalPriceContext);
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
@@ -33,16 +30,16 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
         />
 
         <ul className={styles.list}>
-          {burgerIngredientsList.map((item) => {
+          {constructorIngredients.map((item) => {
             return (
               <li key={item._id} className={styles.list__items} onClick={() => onOpenIngredientStatus(item)}>
 
                 <DragIcon type="primary" />
                 <ConstructorElement
                   key={item._id}
-                  text={`${bun.name} (низ)`}
-                  price={bun.price}
-                  thumbnail={bun.image}
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
                 />
               </li>
             );
@@ -53,15 +50,15 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
           extraClass={styles.buns}
           type="bottom"
           isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={data[0].image}
+          text={`${bun.name} (низ)`}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </div>
 
       <div className={styles.totalOrder}>
         <div className={styles.price}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPriceState.totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button onClick={onOpenConfirm} htmlType="button" type="primary" size="large"> Оформить заказ</Button>
@@ -73,7 +70,9 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
 )
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired,
+  onOpenIngredientStatus: PropTypes.func.isRequired,
+  onOpenConfirm: PropTypes.func.isRequired,
 };
+
 
 export default BurgerConstructor;

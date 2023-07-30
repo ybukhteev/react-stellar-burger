@@ -34,14 +34,14 @@ const Modal = ({ onClose, children, container }) => {
   }, [])
 
   return createPortal(
-    <>
-      <div className={styles.modal}>{children}
+    <ModalOverlay>
+      <div ref={modalBox} className={styles.modal}>
         <div onClick={onClose} className={styles.close_button}>
           <CloseIcon type="primary" />
         </div>
+        {children}
       </div>
-      <ModalOverlay onClose={onClose} />
-    </>,
+    </ModalOverlay>,
     container
   );
 };
