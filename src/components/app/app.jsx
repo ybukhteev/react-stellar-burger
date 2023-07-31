@@ -14,6 +14,8 @@ import { BurgerConstructorContext } from "../../services/context/ingredient-cont
 
 import { TotalPriceContext } from "../../services/context/total-price-context";
 import { useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions";
 
 const api = new Api();
 
@@ -34,12 +36,6 @@ function reducer(state, action) {
 
 const App = () => {
 
-  const [state, setState] = useState({
-    isLoading: false,
-    hasErrors: false,
-    data: {},
-  })
-
   const [bun, setBun] = useState({});
   const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialValue, undefined);
@@ -51,20 +47,15 @@ const App = () => {
   const [currentIngredient, setIngredient] = useState(null);
   const [isActive, setIsActive] = useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    (() => {
-      setState({ ...state, hasErrors: false, isLoading: true });
-      api
-        .getIngredients()
-        .then(({ data }) => {
-          setState({ ...state, data, isLoading: false });
-          setBun(data[0]);
-        })
-        .catch((e) => {
-          setState({ ...state, hasErrors: true, isLoading: false });
-        });
-    })();
-  }, []);
+    dispatch(getIngredients());
+  }, [dispatch]);
+
+  const data = useSelector((store) => store.ingredients.data);
+  const dataRequest = useSelector((store) => store.ingredients.dataRequest);
+  const dataFailed = useSelector((store) => store.ingredients.dataFailed)
 
   useEffect(() => {
     if (Object.keys(bun).length > 0 && constructorIngredients.length > 0) {
@@ -112,10 +103,10 @@ const App = () => {
     <>
       <AppHeader />
       <main className={styles.main}>
-        {state.isLoading && "Loading..."}
-        {state.hasErrors && "Failed"}
-        {!state.isLoading && !state.hasErrors && state.data.length && (
-          <BurgerIngredientsContext.Provider value={state.data}>
+        {dataRequest && "Loading..."}
+        {dataFailed && "Failed"}
+        {!dataRequest && !dataFailed && data.length && (
+          <BurgerIngredientsContext.Provider value={data}>
             <BurgerConstructorContext.Provider
               value={{
                 bun, setBun, constructorIngredients, setConstructorIngredients
