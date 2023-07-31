@@ -19,7 +19,7 @@ const Modal = ({ onClose, children, container }) => {
     }
 
     const handleOverlayClose = (evt) => {
-      if (!modalBox.current.contains(evt.target)) {
+      if (modalBox.current && !modalBox.current.contains(evt.target)) {
         onClose();
       }
     }
