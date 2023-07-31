@@ -2,8 +2,7 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
-//import ingredientType from '../../utils/prop-types';
-import { memo, useMemo, useContext } from 'react';
+import { memo, useMemo, useContext, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 
 import { BurgerIngredientsContext } from '../../services/context/ingredient-context';
@@ -16,6 +15,17 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
   const data = useContext(BurgerIngredientsContext);
   const { setBun, setConstructorIngredients, constructorIngredients } = useContext(BurgerConstructorContext);
   const [current, setCurrent] = React.useState("Булки");
+
+  const bunsRef = useRef();
+  const saucesRef = useRef();
+  const mainRef = useRef();
+
+  const handleTabClick = (ref) => {
+    const elem = ref;
+    elem.current.scrollIntoView({
+      behavior: "smooth"
+    })
+  }
 
   const bunsList = useMemo(() =>
     data.filter((item) => {
@@ -44,7 +54,10 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
           <Tab
             value="Булки"
             active={current === 'Булки'}
-            onClick={setCurrent}
+            onClick={() => {
+              setCurrent("Булки");
+              handleTabClick(bunsRef);
+            }}
           >
             Булки
           </Tab>
@@ -53,7 +66,10 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
           <Tab
             value="Соусы"
             active={current === 'Соусы'}
-            onClick={setCurrent}
+            onClick={() => {
+              setCurrent("Соусы");
+              handleTabClick(saucesRef);
+            }}
           >
             Соусы
           </Tab>
@@ -62,7 +78,10 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
           <Tab
             value="Начинки"
             active={current === 'Начинки'}
-            onClick={setCurrent}
+            onClick={() => {
+              setCurrent("Начинки");
+              handleTabClick(mainRef);
+            }}
           >
             Начинки
           </Tab>
@@ -70,7 +89,7 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
       </ul>
 
       <div className={styles.result__list}>
-        <h2 className="text text_type_main-medium">Булки</h2>
+        <h2 ref={bunsRef} className="text text_type_main-medium">Булки</h2>
         <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {bunsList.map((item) => {
             return (
@@ -85,7 +104,7 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
             );
           })}
         </ul>
-        <h2 className="text text_type_main-medium">Соусы</h2>
+        <h2 ref={saucesRef} className="text text_type_main-medium">Соусы</h2>
         <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {saucesList.map((item) => {
             return (
@@ -109,7 +128,7 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
             );
           })}
         </ul>
-        <h2 className="text text_type_main-medium">Начинки</h2>
+        <h2 ref={mainRef} className="text text_type_main-medium">Начинки</h2>
         <ul className={`pl-4 pr-4 ${styles.ingredients_box}`}>
           {toppingList.map((item) => {
             return (
