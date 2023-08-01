@@ -4,11 +4,13 @@ import {
   GET_INGREDIENT_FAILED,
   SET_CURRENT_INGREDIENT,
   SET_CURRENT_BUN,
-  SET_CONSTRUCTOR_INGREDIENTS,
+  SET_INITIAL_CONSTRUCTOR_INGREDIENTS,
+  SET_INITAIL_BUN,
   GET_ORDER_NUMBER_REQUEST,
   GET_ORDER_NUMBER_SUCCESS,
   GET_ORDER_NUMBER_FAILED,
-  CLEAR_CURRENT_INGREDIENT
+  CLEAR_CURRENT_INGREDIENT,
+  ADD_CONSTRUCTOR_ITEM
 } from '../actions';
 
 const initialState = {
@@ -21,7 +23,8 @@ const initialState = {
   orderIngredients: [],
   orderNumber: null,
   orderNumberRequest: false,
-  orderNumberFailed: false
+  orderNumberFailed: false,
+  totalPrice: 500
 }
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -51,18 +54,21 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredient: action.payload
-      }
+      };
     }
     case SET_CURRENT_BUN: {
       return {
         ...state,
-        currentBun: action.payload
+        currentBun: state.data.find((item) => item.id === action.item._id)
       }
     }
-    case SET_CONSTRUCTOR_INGREDIENTS: {
+    case ADD_CONSTRUCTOR_ITEM: {
       return {
         ...state,
-        constructorIngredients: action.payload
+        constructorIngredients: [
+          ...state.constructorIngredients,
+          ...state.data.filter((item) => item.id === action.item._id)
+        ]
       }
     }
     case GET_ORDER_NUMBER_REQUEST: {
@@ -84,6 +90,18 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         orderNumberFailed: true,
         orderNumberRequest: false
+      }
+    }
+    case SET_INITAIL_BUN: {
+      return {
+        ...state,
+        currentBun: action.initialBun
+      }
+    }
+    case SET_INITIAL_CONSTRUCTOR_INGREDIENTS: {
+      return {
+        ...state,
+        constructorIngredients: action.payload
       }
     }
     case CLEAR_CURRENT_INGREDIENT: {

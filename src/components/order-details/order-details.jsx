@@ -1,7 +1,6 @@
 import styles from '../order-details/order-details.module.css';
 import done from '../../image/done.png';
 import { memo } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 const OrderDetails = memo(() => {
@@ -16,9 +15,5 @@ const OrderDetails = memo(() => {
     </div >
   )
 })
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.number.isRequired,
-};
 
 export default OrderDetails;

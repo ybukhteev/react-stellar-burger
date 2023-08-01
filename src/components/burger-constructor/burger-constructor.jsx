@@ -3,38 +3,40 @@ import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-
-import { memo, useContext, useEffect } from "react";
+import { memo, useEffect } from "react";
 import styles from '../burger-constructor/burger-constructor.module.css'
-import ingredientType from "../../utils/prop-types";
-
-
-import { TotalPriceContext } from "../../services/context/total-price-context";
-import { BurgerConstructorContext } from "../../services/context/ingredient-context";
-import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
-import IngredientDetails from "../ingredients-details/ingredients-details";
-
 import { useSelector, useDispatch } from "react-redux";
-import { SET_CURRENT_BUN, SET_CONSTRUCTOR_INGREDIENTS } from "../../services/actions";
-
-
+import { SET_INITAIL_BUN, SET_CURRENT_BUN, SET_INITIAL_CONSTRUCTOR_INGREDIENTS, ADD_CONSTRUCTOR_ITEM } from "../../services/actions";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
-  const { totalPriceState } = useContext(TotalPriceContext);
   const dispatch = useDispatch();
-
+  const totalPrice = useSelector((store) => store.ingredients.totalPrice);
   const data = useSelector((store) => store.ingredients.data);
   const currentBun = useSelector((store) => store.ingredients.currentBun);
   const constructorIngredients = useSelector((store) => store.ingredients.constructorIngredients);
   const orderNumberRequest = useSelector((store) => store.ingredients.orderNumberRequest);
+  const changeConstructorBun = (item) => { dispatch({ type: SET_CURRENT_BUN, item }) }
+  const addConstructorIngredient = (item) => { dispatch({ type: ADD_CONSTRUCTOR_ITEM, item }) }
+
+  const [, dropTarget] = useDrop({
+    accept: ["ingredient", "bun"],
+    drop(itemId) {
+      if (itemId.type === "ingredient") {
+        addConstructorIngredient(itemId);
+      } else {
+        changeConstructorBun(itemId);
+      }
+    }
+  })
 
   useEffect(() => {
     const initialArray = data.slice(0, 5).filter((item) => {
       return item.type !== "bun";
     });
     const initialBun = data.find((item) => item.type === "bun");
-    dispatch({ type: SET_CURRENT_BUN, payload: initialBun });
-    dispatch({ type: SET_CONSTRUCTOR_INGREDIENTS, payload: initialArray })
+    dispatch({ type: SET_INITAIL_BUN, initialBun });
+    dispatch({ type: SET_INITIAL_CONSTRUCTOR_INGREDIENTS, payload: initialArray })
   }, [])
 
   return (
@@ -49,7 +51,7 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
           thumbnail={currentBun.image}
         />
 
-        <ul className={styles.list}>
+        <ul ref={dropTarget} className={styles.list}>
           {constructorIngredients.map((item) => {
             return (
               <li key={item._id} className={styles.list__items} onClick={() => onOpenIngredientStatus(item)}>
@@ -78,7 +80,7 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
 
       <div className={styles.totalOrder}>
         <div className={styles.price}>
-          <p className="text text_type_digits-medium">{totalPriceState.totalPrice}</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button

@@ -2,20 +2,12 @@ import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
-import { memo, useMemo, useContext, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
-
-import { BurgerIngredientsContext } from '../../services/context/ingredient-context';
-import { BurgerConstructorContext } from '../../services/context/ingredient-context';
-
-import { TotalPriceContext } from '../../services/context/total-price-context';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { SET_CURRENT_BUN } from '../../services/actions';
+import { useSelector } from 'react-redux';
 
 const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
   const [current, setCurrent] = React.useState("Булки");
-  const dispatch = useDispatch();
 
   const ingredients = useSelector((store) => store.ingredients.data);
 
@@ -99,8 +91,8 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
               <IngredientsItems
                 key={item._id}
                 ingredient={item}
+                type="bun"
                 onIngredientClick={() => {
-                  dispatch({ type: SET_CURRENT_BUN, payload: item })
                   onOpenIngredientStatus(item);
                 }}
               />
@@ -117,17 +109,6 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
 
                 onIngredientClick={() => {
                   onOpenIngredientStatus(item);
-
-                  /*  const isAdded = constructorIngredients.some((ingredient) => {
-                    return ingredient._id === item._id;
-                  });
-                  if (!isAdded) {
-                    setConstructorIngredients((constructorIngredients) => [
-                      ...constructorIngredients,
-                      item,
-                    ]);
-                 
-                  }*/
                 }}
               />
             );
@@ -140,19 +121,9 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
               <IngredientsItems
                 key={item._id}
                 ingredient={item}
+                type="ingredient"
                 onIngredientClick={() => {
                   onOpenIngredientStatus(item);
-                  /*
-                  const isAdded = constructorIngredients.some((ingredient) => {
-                    return ingredient._id === item._id;
-                  });
-                  if (!isAdded) {
-                    setConstructorIngredients((constructorIngredients) => [
-                      ...constructorIngredients,
-                      item,
-                    ]);
-                  }
-                  */
                 }}
               />
             );
