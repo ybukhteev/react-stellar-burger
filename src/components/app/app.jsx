@@ -15,7 +15,8 @@ import { BurgerConstructorContext } from "../../services/context/ingredient-cont
 import { TotalPriceContext } from "../../services/context/total-price-context";
 import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions";
+import { getIngredients, getOrderNum } from "../../services/actions";
+import { SET_CURRENT_INGREDIENT } from "../../services/actions";
 
 const api = new Api();
 
@@ -36,15 +37,12 @@ function reducer(state, action) {
 
 const App = () => {
 
-  const [bun, setBun] = useState({});
-  const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialValue, undefined);
   const [orderNumber, setOrderNum] = useState(null);
 
 
 
   const [popupIsOpened, setPopup] = useState(false);
-  const [currentIngredient, setIngredient] = useState(null);
   const [isActive, setIsActive] = useState(false);
 
   const dispatch = useDispatch();
@@ -57,24 +55,31 @@ const App = () => {
   const dataRequest = useSelector((store) => store.ingredients.dataRequest);
   const dataFailed = useSelector((store) => store.ingredients.dataFailed)
 
-  useEffect(() => {
-    if (Object.keys(bun).length > 0 && constructorIngredients.length > 0) {
-      let totalIngredients = 0;
-      constructorIngredients.forEach((item) => (totalIngredients += item.price));
-      totalPriceDispatcher({
-        type: 'total',
-        payload: bun.price + totalIngredients
-      })
-    }
-  }, [bun, constructorIngredients]);
+  const currentBun = useSelector((store) => store.ingredients.currentBun);
+  const constructorIngredients = useSelector((store) => store.ingredients.constructorIngredients);
+  const currentIngredient = useSelector((store) => store.ingredients.currentIngredient);
+  const orderNumberRequest = useSelector((store) => store.ingredients.orderNumberRequest);
+
+  /*
+    useEffect(() => {
+      if (Object.keys(bun).length > 0 && constructorIngredients.length > 0) {
+        let totalIngredients = 0;
+        constructorIngredients.forEach((item) => (totalIngredients += item.price));
+        totalPriceDispatcher({
+          type: 'total',
+          payload: bun.price + totalIngredients
+        })
+      }
+    }, [bun, constructorIngredients]);
+  */
 
   const togglePopup = () => {
     setPopup(!popupIsOpened);
   }
 
   const openIngredientStatus = useCallback((item) => {
-    setIngredient(item);
     setIsActive(true);
+    dispatch({ type: SET_CURRENT_INGREDIENT, payload: item });
     togglePopup();
   }, [])
 
@@ -82,22 +87,11 @@ const App = () => {
     const orderArray = constructorIngredients.map((ingredient) => {
       return ingredient._id;
     })
-      .concat(bun._id);
-    api
-      .getOrderNum(orderArray)
-      .then((res) => {
-        if (res.success) {
-          setOrderNum(res.order.number)
-        }
-      })
-      .then(() => {
-        setIsActive(false);
-        togglePopup();
-      })
-      .catch((e) => {
-        console.log('error');
-      })
-  }, [constructorIngredients, togglePopup, bun._id])
+      .concat(currentBun._id);
+    dispatch(getOrderNum(orderArray));
+    setIsActive(false);
+    togglePopup();
+  }, [constructorIngredients, currentBun._id, dispatch]);
 
   return (
     <>
@@ -106,24 +100,16 @@ const App = () => {
         {dataRequest && "Loading..."}
         {dataFailed && "Failed"}
         {!dataRequest && !dataFailed && data.length && (
-          <BurgerIngredientsContext.Provider value={data}>
-            <BurgerConstructorContext.Provider
-              value={{
-                bun, setBun, constructorIngredients, setConstructorIngredients
-              }}
-            >
-              <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
-                <BurgerIngredients onOpenIngredientStatus={openIngredientStatus} />
-                <BurgerConstructor onOpenIngredientStatus={openIngredientStatus} onOpenConfirm={openConfirm} />
-              </TotalPriceContext.Provider>
-            </BurgerConstructorContext.Provider>
-          </BurgerIngredientsContext.Provider>
+          <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
+            <BurgerIngredients onOpenIngredientStatus={openIngredientStatus} />
+            <BurgerConstructor onOpenIngredientStatus={openIngredientStatus} onOpenConfirm={openConfirm} />
+          </TotalPriceContext.Provider>
         )}
       </main>
 
       {popupIsOpened && (
         <Modal onClose={togglePopup} container={modalRoot}>
-          {isActive ? (<IngredientDetails ingredient={currentIngredient} />) : (<OrderDetails orderId={orderNumber} />)}
+          {isActive ? (<IngredientDetails ingredient={currentIngredient} />) : (orderNumberRequest && <OrderDetails />)}
         </Modal>
       )}
     </>

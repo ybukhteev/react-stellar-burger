@@ -10,11 +10,14 @@ import { BurgerConstructorContext } from '../../services/context/ingredient-cont
 
 import { TotalPriceContext } from '../../services/context/total-price-context';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { SET_CURRENT_BUN } from '../../services/actions';
+
 const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
-  const { totalPriceDispatcher } = useContext(TotalPriceContext);
-  const data = useContext(BurgerIngredientsContext);
-  const { setBun, setConstructorIngredients, constructorIngredients } = useContext(BurgerConstructorContext);
   const [current, setCurrent] = React.useState("Булки");
+  const dispatch = useDispatch();
+
+  const ingredients = useSelector((store) => store.ingredients.data);
 
   const bunsRef = useRef();
   const saucesRef = useRef();
@@ -28,21 +31,21 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
   }
 
   const bunsList = useMemo(() =>
-    data.filter((item) => {
+    ingredients.filter((item) => {
       return item.type === "bun";
-    }), [data]
+    }), [ingredients]
   );
 
   const saucesList = useMemo(() =>
-    data.filter((item) => {
+    ingredients.filter((item) => {
       return item.type === "sauce";
-    }), [data]
+    }), [ingredients]
   );
 
   const toppingList = useMemo(() =>
-    data.filter((item) => {
+    ingredients.filter((item) => {
       return item.type === "main";
-    }), [data]
+    }), [ingredients]
   );
 
   return (
@@ -97,8 +100,8 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                 key={item._id}
                 ingredient={item}
                 onIngredientClick={() => {
+                  dispatch({ type: SET_CURRENT_BUN, payload: item })
                   onOpenIngredientStatus(item);
-                  setBun(item);
                 }}
               />
             );
@@ -114,7 +117,8 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
 
                 onIngredientClick={() => {
                   onOpenIngredientStatus(item);
-                  const isAdded = constructorIngredients.some((ingredient) => {
+
+                  /*  const isAdded = constructorIngredients.some((ingredient) => {
                     return ingredient._id === item._id;
                   });
                   if (!isAdded) {
@@ -122,7 +126,8 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                       ...constructorIngredients,
                       item,
                     ]);
-                  }
+                 
+                  }*/
                 }}
               />
             );
@@ -137,6 +142,7 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                 ingredient={item}
                 onIngredientClick={() => {
                   onOpenIngredientStatus(item);
+                  /*
                   const isAdded = constructorIngredients.some((ingredient) => {
                     return ingredient._id === item._id;
                   });
@@ -146,6 +152,7 @@ const BurgerIngredients = memo(({ onOpenIngredientStatus }) => {
                       item,
                     ]);
                   }
+                  */
                 }}
               />
             );

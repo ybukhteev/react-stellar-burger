@@ -14,31 +14,39 @@ import { BurgerConstructorContext } from "../../services/context/ingredient-cont
 import { BurgerIngredientsContext } from "../../services/context/ingredient-context";
 import IngredientDetails from "../ingredients-details/ingredients-details";
 
+import { useSelector, useDispatch } from "react-redux";
+import { SET_CURRENT_BUN, SET_CONSTRUCTOR_INGREDIENTS } from "../../services/actions";
+
+
 
 const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
-  const data = useContext(BurgerIngredientsContext);
-  const { bun, setBun, constructorIngredients, setConstructorIngredients } = useContext(BurgerConstructorContext);
   const { totalPriceState } = useContext(TotalPriceContext);
+  const dispatch = useDispatch();
+
+  const data = useSelector((store) => store.ingredients.data);
+  const currentBun = useSelector((store) => store.ingredients.currentBun);
+  const constructorIngredients = useSelector((store) => store.ingredients.constructorIngredients);
+  const orderNumberRequest = useSelector((store) => store.ingredients.orderNumberRequest);
 
   useEffect(() => {
     const initialArray = data.slice(0, 5).filter((item) => {
-      return item.type !== 'bun';
+      return item.type !== "bun";
     });
-    const initialBun = data.find((item) => item.type === 'bun');
-    setBun(initialBun);
-    setConstructorIngredients(initialArray);
+    const initialBun = data.find((item) => item.type === "bun");
+    dispatch({ type: SET_CURRENT_BUN, payload: initialBun });
+    dispatch({ type: SET_CONSTRUCTOR_INGREDIENTS, payload: initialArray })
   }, [])
 
   return (
     <section className={`pl-4 pr-4 ${styles.section}`}>
       <div className={styles.ingredients}>
         <ConstructorElement
-          extraClass={styles.buns}
+          extraClass={styles.item__bun}
           type="top"
           isLocked={true}
-          text={`${bun.name} (верх)`}
-          price={bun.price}
-          thumbnail={bun.image}
+          text={`${currentBun.name} (верх)`}
+          price={currentBun.price}
+          thumbnail={currentBun.image}
         />
 
         <ul className={styles.list}>
@@ -59,12 +67,12 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
         </ul>
 
         <ConstructorElement
-          extraClass={styles.buns}
+          extraClass={styles.item__bun}
           type="bottom"
           isLocked={true}
-          text={`${bun.name} (низ)`}
-          price={bun.price}
-          thumbnail={bun.image}
+          text={`${currentBun.name} (низ)`}
+          price={currentBun.price}
+          thumbnail={currentBun.image}
         />
       </div>
 
@@ -73,7 +81,14 @@ const BurgerConstructor = memo(({ onOpenIngredientStatus, onOpenConfirm }) => {
           <p className="text text_type_digits-medium">{totalPriceState.totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button onClick={onOpenConfirm} htmlType="button" type="primary" size="large"> Оформить заказ</Button>
+        <Button
+          onClick={onOpenConfirm}
+          htmlType="button"
+          type="primary"
+          size="large"
+        >
+          {orderNumberRequest ? "Оформляется" : "Оформить заказ"}
+        </Button>
       </div>
 
     </section>

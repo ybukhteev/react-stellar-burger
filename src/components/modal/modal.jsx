@@ -5,22 +5,30 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { CLEAR_CURRENT_INGREDIENT } from '../../services/actions';
 
 const Modal = ({ onClose, children, container }) => {
 
   const modalBox = useRef();
+  const dispatch = useDispatch();
+
+  const close = () => {
+    dispatch({ type: CLEAR_CURRENT_INGREDIENT });
+    onClose();
+  }
 
   useEffect(() => {
 
     const handleEscClose = (evt) => {
       if (evt.key === "Escape") {
-        onClose();
+        close();
       }
     }
 
     const handleOverlayClose = (evt) => {
       if (modalBox.current && !modalBox.current.contains(evt.target)) {
-        onClose();
+        close();
       }
     }
 
@@ -35,7 +43,7 @@ const Modal = ({ onClose, children, container }) => {
 
   return createPortal(
     <>
-      <div className={styles.modal}>{children}
+      <div ref={modalBox} className={styles.modal}>{children}
         <div onClick={onClose} className={styles.close_button}>
           <CloseIcon type="primary" />
         </div>

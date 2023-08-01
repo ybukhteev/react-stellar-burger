@@ -1,12 +1,27 @@
-import { GET_INGREDIENT_REQUEST, GET_INGREDIENT_SUCCESS, GET_INGREDIENT_FAILED } from '../actions';
+import {
+  GET_INGREDIENT_REQUEST,
+  GET_INGREDIENT_SUCCESS,
+  GET_INGREDIENT_FAILED,
+  SET_CURRENT_INGREDIENT,
+  SET_CURRENT_BUN,
+  SET_CONSTRUCTOR_INGREDIENTS,
+  GET_ORDER_NUMBER_REQUEST,
+  GET_ORDER_NUMBER_SUCCESS,
+  GET_ORDER_NUMBER_FAILED,
+  CLEAR_CURRENT_INGREDIENT
+} from '../actions';
 
 const initialState = {
   data: [],
   dataRequest: false,
   dataFailed: false,
   constructorIngredients: [],
+  currentBun: {},
   currentIngredient: {},
-  order: {}
+  orderIngredients: [],
+  orderNumber: null,
+  orderNumberRequest: false,
+  orderNumberFailed: false
 }
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -32,7 +47,53 @@ export const ingredientsReducer = (state = initialState, action) => {
         dataRequest: false
       }
     }
+    case SET_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: action.payload
+      }
+    }
+    case SET_CURRENT_BUN: {
+      return {
+        ...state,
+        currentBun: action.payload
+      }
+    }
+    case SET_CONSTRUCTOR_INGREDIENTS: {
+      return {
+        ...state,
+        constructorIngredients: action.payload
+      }
+    }
+    case GET_ORDER_NUMBER_REQUEST: {
+      return {
+        ...state,
+        orderNumberRequest: true
+      }
+    }
+    case GET_ORDER_NUMBER_SUCCESS: {
+      return {
+        ...state,
+        orderNumberRequest: false,
+        orderNumberFailed: false,
+        orderNumber: action.payload
+      }
+    }
+    case GET_ORDER_NUMBER_FAILED: {
+      return {
+        ...state,
+        orderNumberFailed: true,
+        orderNumberRequest: false
+      }
+    }
+    case CLEAR_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: {}
+      }
+    }
     default:
       return state;
   }
+
 }
